@@ -4,12 +4,15 @@ import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.TransitionDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.AnimationSet;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -26,7 +29,12 @@ public class MainActivity extends AppCompatActivity {
     private Button mResumeBtn;
     private Button mReverseBtn;
     private ProgressBar mProgressBar;
+    private ImageView mMyLove;
+    private ImageView mMyLoveIdleBasha;
     private ImageView mMyLoveIdle;
+    private FrameLayout mFrameLayout;
+
+
     private ValueAnimator mProgressAnimator;
     private ValueAnimator mColorAnimator;
     private ObjectAnimator mAlphaAnimator;
@@ -45,11 +53,23 @@ public class MainActivity extends AppCompatActivity {
         mResumeBtn = findViewById(R.id.resume_btn);
         mReverseBtn = findViewById(R.id.reverse_btn);
         mProgressBar = findViewById(R.id.progress_bar);
+        mMyLove = findViewById(R.id.my_love);
+        mMyLoveIdleBasha = findViewById(R.id.my_love_basha);
         mMyLoveIdle = findViewById(R.id.my_love_idle);
 
         initValueAnimator();
         initObjectAnimator();
         initOnClickListener();
+    }
+
+    private void initTransationDrawable() {
+        Drawable drawableA = mMyLoveIdleBasha.getDrawable();
+        Drawable drawableB = mMyLoveIdle.getDrawable();
+
+        TransitionDrawable transitionDrawable = new TransitionDrawable(new Drawable[]{drawableA, drawableB});
+        transitionDrawable.setCrossFadeEnabled(true);
+        mMyLove.setImageDrawable(transitionDrawable);
+        transitionDrawable.startTransition(3000);
     }
 
     private void initObjectAnimator() {
@@ -70,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
                 mProgressAnimator.start();
                 mColorAnimator.start();
                 mAnimatorSet.start();
+                initTransationDrawable();
             }
         });
         mEndBtn.setOnClickListener(new View.OnClickListener() {

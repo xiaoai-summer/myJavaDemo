@@ -76,12 +76,39 @@
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
         android:layout_height="20dp" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center">
+        <ImageView
+            android:id="@+id/my_love"
+            android:layout_width="245dp"
+            android:layout_height="245dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/my_love_idle" />
 
-    <ImageView
-        android:id="@+id/my_love_idle"
-        android:layout_width="245dp"
-        android:layout_height="245dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:src="@drawable/my_love_idle" />
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible">
+
+            <ImageView
+                android:id="@+id/my_love_basha"
+                android:layout_width="245dp"
+                android:layout_height="245dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/my_love_basha" />
+
+            <ImageView
+                android:id="@+id/my_love_idle"
+                android:layout_width="245dp"
+                android:layout_height="245dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/my_love_idle" />
+        </FrameLayout>
+    </LinearLayout>
 </LinearLayout>
