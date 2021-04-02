@@ -1,12 +1,16 @@
 package com.example.myapplication;
 
 import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AnimationSet;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -22,8 +26,13 @@ public class MainActivity extends AppCompatActivity {
     private Button mResumeBtn;
     private Button mReverseBtn;
     private ProgressBar mProgressBar;
+    private ImageView mMyLoveIdle;
     private ValueAnimator mProgressAnimator;
     private ValueAnimator mColorAnimator;
+    private ObjectAnimator mAlphaAnimator;
+    private ObjectAnimator mScaleAnimatorX;
+    private ObjectAnimator mScaleAnimatorY;
+    private AnimatorSet mAnimatorSet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,13 +45,31 @@ public class MainActivity extends AppCompatActivity {
         mResumeBtn = findViewById(R.id.resume_btn);
         mReverseBtn = findViewById(R.id.reverse_btn);
         mProgressBar = findViewById(R.id.progress_bar);
+        mMyLoveIdle = findViewById(R.id.my_love_idle);
 
-        initAnimator();
+        initValueAnimator();
+        initObjectAnimator();
+        initOnClickListener();
+    }
+
+    private void initObjectAnimator() {
+        mAlphaAnimator = ObjectAnimator.ofFloat(mMyLoveIdle, "alpha", 0.2f, 1f);
+
+        mScaleAnimatorX = ObjectAnimator.ofFloat(mMyLoveIdle, "scaleX", 1f, 1.1f);
+        mScaleAnimatorY = ObjectAnimator.ofFloat(mMyLoveIdle, "scaleY", 1f, 1.1f);
+
+        mAnimatorSet = new AnimatorSet();
+        mAnimatorSet.setDuration(3000);
+        mAnimatorSet.playTogether(mScaleAnimatorX, mScaleAnimatorY, mAlphaAnimator);
+    }
+
+    private void initOnClickListener() {
         mStartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mProgressAnimator.start();
                 mColorAnimator.start();
+                mAnimatorSet.start();
             }
         });
         mEndBtn.setOnClickListener(new View.OnClickListener() {
@@ -87,14 +114,13 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void initAnimator() {
+    private void initValueAnimator() {
         mProgressAnimator = ValueAnimator.ofInt(0, 100);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mColorAnimator = ValueAnimator.ofArgb(0xffffffff, 0xffff0000, 0xff0000ff, 0xff00ff00);
         }
         mColorAnimator.setDuration(3000);
         mProgressAnimator.setDuration(3000);
-
 
         mProgressAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
