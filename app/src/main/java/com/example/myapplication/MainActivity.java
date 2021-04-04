@@ -68,15 +68,15 @@ public class MainActivity extends AppCompatActivity {
 
         TransitionDrawable transitionDrawable = new TransitionDrawable(new Drawable[]{drawableA, drawableB});
         transitionDrawable.setCrossFadeEnabled(true);
-        mMyLove.setImageDrawable(transitionDrawable);
+        mMyLoveIdle.setImageDrawable(transitionDrawable);
         transitionDrawable.startTransition(3000);
     }
 
     private void initObjectAnimator() {
-        mAlphaAnimator = ObjectAnimator.ofFloat(mMyLoveIdle, "alpha", 0.2f, 1f);
+        mAlphaAnimator = ObjectAnimator.ofFloat(mMyLove, "alpha", 0.2f, 1f);
 
-        mScaleAnimatorX = ObjectAnimator.ofFloat(mMyLoveIdle, "scaleX", 1f, 1.1f);
-        mScaleAnimatorY = ObjectAnimator.ofFloat(mMyLoveIdle, "scaleY", 1f, 1.1f);
+        mScaleAnimatorX = ObjectAnimator.ofFloat(mMyLove, "scaleX", 1f, 1.1f);
+        mScaleAnimatorY = ObjectAnimator.ofFloat(mMyLove, "scaleY", 1f, 1.1f);
 
         mAnimatorSet = new AnimatorSet();
         mAnimatorSet.setDuration(3000);
