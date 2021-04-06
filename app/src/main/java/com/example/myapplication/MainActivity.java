@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
     private ImageView mMyLove;
     private ImageView mMyLoveIdleBasha;
     private ImageView mMyLoveIdle;
-    private FrameLayout mFrameLayout;
 
 
     private ValueAnimator mProgressAnimator;
