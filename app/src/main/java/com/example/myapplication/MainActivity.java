@@ -1,18 +1,24 @@
 package com.example.myapplication;
 
 import android.animation.Animator;
+import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.View;
+import android.view.WindowMetrics;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -22,6 +28,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
+    private Button mTransBtn;
     private Button mStartBtn;
     private Button mEndBtn;
     private Button mCancelBtn;
@@ -41,10 +48,13 @@ public class MainActivity extends AppCompatActivity {
     private ObjectAnimator mScaleAnimatorY;
     private AnimatorSet mAnimatorSet;
 
+    private Handler mHandler = new Handler(Looper.getMainLooper());
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mTransBtn = findViewById(R.id.trans_btn);
         mStartBtn = findViewById(R.id.start_btn);
         mEndBtn = findViewById(R.id.end_btn);
         mCancelBtn = findViewById(R.id.cancel_btn);
@@ -59,6 +69,36 @@ public class MainActivity extends AppCompatActivity {
         initValueAnimator();
         initObjectAnimator();
         initOnClickListener();
+
+        initXmlObjectAnimator();
+
+        initTransationAnimation();
+    }
+
+    private void initTransationAnimation() {
+        TranslateAnimation translateAnimation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0f, Animation.RELATIVE_TO_SELF, 1.5f, Animation.RELATIVE_TO_SELF, 0f, Animation.RELATIVE_TO_SELF, 0f);
+        translateAnimation.setFillAfter(true);
+
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mTransBtn.startAnimation(translateAnimation);
+            }
+        }, 2000);
+    }
+
+    private void initXmlObjectAnimator() {
+        //加载xml中属性动画
+        AnimatorSet animatorset = (AnimatorSet) AnimatorInflater.loadAnimator(this, R.animator.animator_set);
+        Animator animator = AnimatorInflater.loadAnimator(this, R.animator.animator_alpha);
+
+        //使用组合属性动画
+        animatorset.setTarget(mMyLove);
+        animatorset.start();
+
+        //使用属性动画
+        animator.setTarget(mMyLove);
+        animator.start();
     }
 
     private void initTransationDrawable() {
@@ -83,6 +123,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initOnClickListener() {
+        mTransBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, getString(R.string.click_trans_btn), Toast.LENGTH_SHORT).show();
+            }
+        });
+
         mStartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -178,5 +225,11 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "动画重复", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mHandler.removeCallbacksAndMessages(null);
     }
 }

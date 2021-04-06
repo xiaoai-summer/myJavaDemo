@@ -1,9 +1,11 @@
 <resources>
     <string name="app_name">My Application</string>
+    <string name="trans">trans</string>
     <string name="start">start</string>
     <string name="end">end</string>
     <string name="cancel">cancel</string>
     <string name="pause">pause</string>
     <string name="resume">resume</string>
     <string name="reverse">reverse</string>
+    <string name="click_trans_btn">click trans btn</string>
 </resources>
